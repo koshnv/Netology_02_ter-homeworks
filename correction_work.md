@@ -16,8 +16,8 @@
 
 Я добавил интерполяцию и реализовал динамическую сборку метаданных:
 ```sh
-  develop_db  = "${var.vpc_name}-db" # Формирует имя подсети (например, "develop-db")
-  full_metadata  = merge(var.metadata, { ssh-keys = var.ssh-keys_pub }) #Для динамической сборки metadata
+  develop_db  = "${var.vpc_name}-${var.environment}" # Формирует имя подсети (например, "develop-db")
+  full_metadata  = merge(var.metadata, { ssh-keys = var.ssh-keys_pub }) # Для динамической сборки metadata
 ```  
 
 `develop_db`: Использует интерполяцию для формирования имени подсети. По умолчанию var.vpc_name = "develop" и var.environment = "db", что даёт "develop-db", совпадающее с текущей конфигурацией, чтобы избежать изменений в terraform plan.  

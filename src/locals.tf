@@ -1,6 +1,6 @@
 locals {
   vm_web_name = "${var.vm_web_name}"
   vm_db_name  = "${var.vm_db_name}"
-  develop_db  = "${var.vpc_name}-${var.environment}" # Новая интерполяция
-  full_metadata  = merge(var.metadata, { ssh-keys = var.ssh-keys_pub }) #Для динамической сборки metadata
+  develop_db  = "${var.vpc_name}-${var.environment}" #  Р¤РѕСЂРјРёСЂСѓРµС‚ РёРјСЏ РїРѕРґСЃРµС‚Рё (РЅР°РїСЂРёРјРµСЂ, "develop-db")
+  full_metadata  = merge(var.metadata, { ssh-keys = var.ssh-keys_pub }) # Р”Р»СЏ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ СЃР±РѕСЂРєРё metadata
 }
