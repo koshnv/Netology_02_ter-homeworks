@@ -1,5 +1,9 @@
 # Домашнее задание по модулю Основы Terraform. Yandex Cloud  
 
+Описание замечаний и исправлений к ДЗ находятся тут:
+[Домашнее задание по модулю Основы Terraform. Yandex Cloud](https://github.com/koshnv/Netology_02_ter-homeworks/сorrection_work.md)
+
+
 Создал сервисный аккаунт:  
 ![service-account list](img/service-account_list.png)  
 

@@ -1,29 +1,35 @@
+#Создаёт виртуальную сеть
 resource "yandex_vpc_network" "develop" {
   name = var.vpc_name
 }
 
+#Создаёт подсеть внутри сети develop
 resource "yandex_vpc_subnet" "develop" {
   name           = var.vpc_name
   zone           = var.default_zone
   network_id     = yandex_vpc_network.develop.id
-  v4_cidr_blocks = var.default_cidr
+  v4_cidr_blocks = var.vms_net.web.subnet_IP
 }
 
+#Создаёт вторую подсеть для базы данных
 resource "yandex_vpc_subnet" "develop_db" {
-  name           = "${var.vpc_name}-db"
+  name           = local.develop_db #"${var.vpc_name}-db"
   zone           = var.vm_db_zone
   network_id     = yandex_vpc_network.develop.id
-  v4_cidr_blocks = ["10.0.2.0/24"]
+  v4_cidr_blocks = var.vms_net.db.subnet_IP # ["10.0.2.0/24"] Замечание
 }
 
+# Запрашивает информацию о последней доступной версии образа из семейсва Ubuntu
 data "yandex_compute_image" "Ubuntu" {
   family = var.vm_web_image_family
 }
 
-data "yandex_compute_image" "Ubuntu_db" {
-  family = var.vm_db_image_family
-}
+# Дублирование кода. Aлогично предыдущему блоку, запрашивает образ Ubuntu для базы данных из семейства
+#data "yandex_compute_image" "Ubuntu_db" {
+#  family = var.vm_db_image_family
+#}
 
+#Создаёт виртуальную машину (ВМ) для веб-сервера
 resource "yandex_compute_instance" "platform" {
   name        = local.vm_web_name  # Заменил на локальную переменную
   platform_id = var.vm_web_platform_id
@@ -45,10 +51,11 @@ resource "yandex_compute_instance" "platform" {
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.develop.id
-    nat       = true
+    nat       = var.vms_net.web.nat # true
   }
 
-   metadata = var.metadata
+#  metadata = var.metadata
+   metadata = local.full_metadata
 #  metadata = {
 #    serial-port-enable = 1
 #    ssh-keys           = "ubuntu:${var.vms_ssh_root_key}"
@@ -57,6 +64,7 @@ resource "yandex_compute_instance" "platform" {
 
 }
 
+# Создаёт ВМ для базы данных
 resource "yandex_compute_instance" "platform_db" {
   name        = local.vm_db_name  # Заменил на локальную переменную
   platform_id = var.vm_db_platform_id
@@ -71,7 +79,8 @@ resource "yandex_compute_instance" "platform_db" {
   }
   boot_disk {
     initialize_params {
-      image_id = data.yandex_compute_image.Ubuntu_db.image_id
+      #image_id = data.yandex_compute_image.Ubuntu_db.image_id #Дублирование кода
+      image_id = data.yandex_compute_image.Ubuntu.image_id
     }
   }
   scheduling_policy {
@@ -79,10 +88,11 @@ resource "yandex_compute_instance" "platform_db" {
   }
   network_interface {
     subnet_id = yandex_vpc_subnet.develop_db.id
-    nat       = true
+    nat       = var.vms_net.db.nat
   }
 
-  metadata = var.metadata
+#  metadata = var.metadata
+   metadata = local.full_metadata
 #  metadata = {
 #    serial-port-enable = 1
 #    ssh-keys           = "ubuntu:${var.vms_ssh_root_key}"

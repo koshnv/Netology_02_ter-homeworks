@@ -20,6 +20,24 @@ variable "vms_resources" {
   description = "Resources for VMs (web and db)"
 }
 
+###NET-resources for VMs
+variable "vms_net" {
+  type = map(object({
+    subnet_IP  = list(string)
+    nat        = bool
+  }))
+  default = {
+    web = {
+      subnet_IP  = ["10.0.1.0/24"]
+      nat        = true
+    }
+    db = {
+      subnet_IP  = ["10.0.2.0/24"]
+      nat        = true
+    }
+  }
+  description = "NET for VMs (web and db)"
+}
 
 ###vm vars (web)
 variable "vm_web_image_family" {
@@ -111,4 +129,11 @@ variable "vm_db_zone" {
   type        = string
   default     = "ru-central1-b"
   description = "Zone for the DB VM"
+}
+
+###environment var
+variable "environment" {
+  type        = string
+  default     = "db"  # Совпадает с текущим суффиксом
+  description = "Environment suffix for subnet naming"
 }
