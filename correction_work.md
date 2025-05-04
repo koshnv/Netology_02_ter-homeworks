@@ -2,7 +2,7 @@
 [Домашнее задание по модулю Основы Terraform. Yandex Cloud](https://github.com/koshnv/Netology_02_ter-homeworks)
 
 Замечане к выполенной работе:
-![Замечание](img/сorrection_work.png)
+![Замечание](img/correction_work.png)
 
 Исправление:
 
