@@ -76,8 +76,10 @@ variable "vms_net" {
   }
   description = "NET for VMs (web and db)"
 }
-```
+```  
 
-Стало:
-![Маска сети](img/net1.png)
-![NAT](img/net2.png)
+Стало:  
+
+![Маска сети](img/net1.png)  
+
+![NAT](img/net2.png)  
