@@ -1,7 +1,7 @@
 # Домашнее задание по модулю Основы Terraform. Yandex Cloud  
 
 Описание замечаний и исправлений к ДЗ находятся тут:
-[Домашнее задание по модулю Основы Terraform. Yandex Cloud](./correction_work.md)
+[Исправление замечаний к ДЗ "Основы Terraform. Yandex Cloud"](./correction_work.md)
 
 
 Создал сервисный аккаунт:  
